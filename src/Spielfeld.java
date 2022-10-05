@@ -24,8 +24,8 @@ JSplitPane jsp;
 
     private void StartGame() {
 
-        //playerSetup(coordinatesP1);
-        //kek
+        playerSetup(coordinatesP1);
+
         //playerSetup(coordinatesP2);
         createField();
     }
