@@ -143,7 +143,7 @@ JSplitPane jsp;
         }
     }
     public void initField(JPanel j) throws FileNotFoundException {
-        File fileName=new File("Schiffeversenken/src/field.txt");
+        File fileName=new File("src/field.txt");
         Scanner sc = new Scanner(fileName);
         for (int[] ints : coordinatesField) {
             for (int c = 0; c < coordinatesField.length; c++) {
