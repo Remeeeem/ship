@@ -32,7 +32,7 @@ JSplitPane jsp;
 
     private void playerSetup(int[][] coord) {
         Scanner sc = new Scanner(System.in);
-        coord[0][0]=-5;
+        coord[0][0]=-6;
         int miniBoat=4;
         int submarine=3;
         int destroyer=2;
