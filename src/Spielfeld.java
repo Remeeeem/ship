@@ -23,7 +23,13 @@ private JSplitPane jsp;
     }
 
     private void StartGame() {
-        createField();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createField();
+            }
+        });
+
+
         playerSetup(coordinatesP1);
 
         //playerSetup(coordinatesP2);
