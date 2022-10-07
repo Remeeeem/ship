@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -9,11 +11,37 @@ public class Spielfeld extends JFrame {
     private static int[][] coordinatesField;
     boolean playerTurn;
     private JSplitPane jsp;
-
+    private KeyListener k;
 
     public Spielfeld() {
         coordinatesField = new int[12][12];
         StartGame();
+        k=new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+                switch (e.getKeyCode()){
+                    case(KeyEvent.VK_ENTER):{
+                        Game.setIsRotateAllowed(false);
+                        break;
+                    }
+                    case(KeyEvent.VK_DOWN):
+
+                }
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        };
+        addKeyListener(k);
     }
 
     private void StartGame() {
@@ -107,6 +135,28 @@ public class Spielfeld extends JFrame {
         }
         sc.close();
     }
+
+    public static void setAreaColor(JLabel a){
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                System.out.print("Ausgewählt");
+                return null;
+            }
+            @Override
+            public void done() {
+                a.setForeground(Color.RED);
+                a.repaint();
+            }
+        };
+
+        // Call the SwingWorker from within the Swing thread
+        worker.execute();
+    }
+
+
+
+
 
     public static void setCoordinatesField(int[][] coordinatesField) {
         Spielfeld.coordinatesField = coordinatesField;

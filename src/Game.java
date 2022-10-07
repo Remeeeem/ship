@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Scanner;
 
 public class Game {
@@ -8,11 +12,14 @@ public class Game {
     private static Area[][] coordinatesP1;
     private static Area[][] coordinatesP2;
     private Spielfeld gui;
+    private static boolean isRotateAllowed=false;
 
     public Game() {
         coordinatesP1 = new Area[12][12];
         coordinatesP2 = new Area[12][12];
         gui = new Spielfeld();
+
+
 
         playerSetup(coordinatesP1);
     }
@@ -81,28 +88,15 @@ public class Game {
     private void inputCoordinates(JLabel[][] coord, int groesse) {
 
         int mitte = (int) ((Spielfeld.getCoordinatesField().length - 2) / 2);
-
-
-        Thread thread = new Thread(new Runnable(){
-            @Override
-            public void run()
-            {
-                try
-                {
-                    for (int x = 0; x < groesse; x++) {
-                        JLabel j = coord[mitte + groesse][mitte];
-                        j.setForeground(Color.RED);
-                        j.repaint();
-                        Thread.sleep(100);
-                    }
-
-                }
-                catch(Exception ex){}
-            }
-        });
-        thread.start();
+        for(int x=0;x<groesse;x++){
+        Spielfeld.setAreaColor(coord[mitte+x][mitte]);}
+        isRotateAllowed=true;
     }
     //validate();
+    public static void rotate(int groesse, int indexAnchor, int rotation){
+
+    }
+
 
 
 
@@ -117,6 +111,12 @@ public class Game {
     public static Area[][] getCoordinatesP2() {
         return coordinatesP2;
     }
+    public static boolean getisRotateAllowed()
+    {
+        return isRotateAllowed;
+
+    }
+
 
     public static void setCoordinatesP1(Area[][] coordinatesP1) {
         Game.coordinatesP1 = coordinatesP1;
@@ -125,4 +125,15 @@ public class Game {
     public static void setCoordinatesP2(Area[][] coordinatesP2) {
         Game.coordinatesP2 = coordinatesP2;
     }
+
+    public static void setIsRotateAllowed(boolean isRotateAllowed) {
+        Game.isRotateAllowed = isRotateAllowed;
+    }
+
+
+
+    public Spielfeld getGui() {
+        return gui;
+    }
+
 }
