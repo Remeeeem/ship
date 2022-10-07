@@ -9,14 +9,17 @@ import java.util.Scanner;
 
 public class Spielfeld extends JFrame {
     private static int[][] coordinatesField;
-    boolean playerTurn;
+
     private JSplitPane jsp;
     private KeyListener k;
+    private JPanel player1;
+    private JPanel player2;
+
 
     public Spielfeld() {
         coordinatesField = new int[12][12];
         StartGame();
-        k=new KeyListener() {
+        k = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
 
@@ -24,14 +27,24 @@ public class Spielfeld extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-
-                switch (e.getKeyCode()){
-                    case(KeyEvent.VK_ENTER):{
-                        Game.setIsRotateAllowed(false);
-                        break;
+                if (Game.getisRotateAllowed()) {
+                    switch (e.getKeyCode()) {
+                        case (KeyEvent.VK_ENTER):
+                            Game.setIsRotateAllowed(false);
+                            break;
+                        case (KeyEvent.VK_DOWN):
+                            Game.setrDirection(1);
+                            break;
+                        case (KeyEvent.VK_UP):
+                            Game.setrDirection(2);
+                            break;
+                        case (KeyEvent.VK_RIGHT):
+                            Game.setrDirection(3);
+                            break;
+                        case (KeyEvent.VK_LEFT):
+                            Game.setrDirection(4);
+                            break;
                     }
-                    case(KeyEvent.VK_DOWN):
-
                 }
 
             }
@@ -55,10 +68,10 @@ public class Spielfeld extends JFrame {
         setLayout(new FlowLayout());
         //setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel player1 = new JPanel();
+        player1 = new JPanel();
         player1.setLayout(new GridLayout(coordinatesField.length, coordinatesField.length));
         //player1.setSize(1000, 1000);
-        JPanel player2 = new JPanel();
+        player2 = new JPanel();
         player2.setLayout(new GridLayout(coordinatesField.length, coordinatesField.length));
         player2.setBackground(Color.decode("#016D79"));
         player1.setBackground(Color.decode("#016D79"));
@@ -106,8 +119,8 @@ public class Spielfeld extends JFrame {
     public void initField(JPanel j, Area[][] coords) throws FileNotFoundException {
         File fileName = new File("src/field.txt");
         Scanner sc = new Scanner(fileName);
-        for (int r = 0; r < coordinatesField.length; r++) {
-            for (int c = 0; c < coordinatesField.length; c++) {
+        for (int c = 0; c < coordinatesField.length; c++) {
+            for (int r = 0; r < coordinatesField.length; r++) {
                 Area l = new Area();
                 if (coordinatesField[r][c] == -1) {
                     if (sc.hasNext()) {
@@ -118,7 +131,7 @@ public class Spielfeld extends JFrame {
                     l.setText(" ");
                 } else {
                     l.setText("F");
-                    l.setForeground(Color.decode("#748384"));
+                    l.setForeground(Color.BLACK);
                     /*try {
                         Image img = ImageIO.read(getClass().getResource("Schiff.bmp"));
                         l.setIcon(new ImageIcon(img));
@@ -136,16 +149,17 @@ public class Spielfeld extends JFrame {
         sc.close();
     }
 
-    public static void setAreaColor(JLabel a){
+    public static void setAreaColor(JLabel a) {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
-                System.out.print("Ausgewählt");
                 return null;
             }
+
+
             @Override
             public void done() {
-                a.setForeground(Color.RED);
+                a.setForeground(Color.GREEN);
                 a.repaint();
             }
         };
@@ -154,8 +168,17 @@ public class Spielfeld extends JFrame {
         worker.execute();
     }
 
+    public void fair(boolean turn){
+        if(!turn){
+            player1.setBackground(Color.decode("#016D79"));
+            player2.setBackground(Color.BLACK);
+        }
+        else {
+            player2.setBackground(Color.decode("#016D79"));
+            player1.setBackground(Color.BLACK);
 
-
+        }
+    }
 
 
     public static void setCoordinatesField(int[][] coordinatesField) {
